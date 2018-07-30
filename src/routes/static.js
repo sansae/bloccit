@@ -1,12 +1,10 @@
 const express = require("express");
 const router = express.Router();
 
-router.get("/", (req, res, next) => {
-  res.send("Welcome home");
-});
+const staticController = require("../controllers/staticController");
 
-router.get("/marco", (req, res, next) => {
-  res.send("polo");
-});
+router.get("/", staticController.index);
+
+router.get("/marco", staticController.marco);
 
 module.exports = router;
