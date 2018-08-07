@@ -1,5 +1,13 @@
+const advertisementQueries = require("../db/queries.advertisements.js");
+
 module.exports = {
   index(req, res, next) {
-    res.send("TODO: list all advertisements");
+    advertisementQueries.getAllAdvertisements((err, advertisements) => {
+      if (err) {
+        res.redirect(500, "static/index");
+      } else {
+        res.render("advertisements/index", {advertisements});
+      }
+    })
   }
 }
