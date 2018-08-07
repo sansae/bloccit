@@ -9,4 +9,6 @@ router.get("/advertisements/new", advertisementController.new);
 
 router.post("/advertisements/create", advertisementController.create);
 
+router.get("/advertisements/:id", advertisementController.show);
+
 module.exports = router;

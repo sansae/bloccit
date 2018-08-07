@@ -23,4 +23,14 @@ module.exports = {
       callback(err);
     })
   },
+
+  getAdvertisement(id, callback) {
+    return Advertisement.findById(id)
+    .then((advertisement) => {
+      callback(null, advertisement);
+    })
+    .catch((err) => {
+      callback(err);
+    })
+  }
 }

@@ -22,9 +22,9 @@ module.exports = {
     };
     topicQueries.addTopic(newTopic, (err, topic) => {
       if(err) {
-        res.redirect(500, "/topics/new");
+        res.redirect(500, "topics/new");
       } else {
-        res.redirect(303, `/topics/${topic.id}`);
+        res.redirect(303, `topics/${topic.id}`);
       }
     });
   },
@@ -34,7 +34,7 @@ module.exports = {
       if(err || topic == null) {
         res.redirect(404, "/");
       } else {
-       res.render("topics/show", {topic});
+        res.render("topics/show", {topic});
       }
     });
   },
