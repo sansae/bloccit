@@ -45,4 +45,30 @@ describe("routes : advertisements", () => {
       });
     });
   });
+
+  describe("POST /advertisements/create", () => {
+    it("should create a new advertisement and redirect", (done) => {
+      const options = {
+        url: `${base}create`,
+        form: {
+          title: "Hiring Bloc Developers",
+          description: "Interested applicants please forward resume to careers@bloc.io"
+        },
+      }
+
+      request.post(options, (err, res, body) => {
+        Advertisement.findOne({where: {title: "Hiring Bloc Developers"}})
+        .then((advertisement) => {
+          expect(res.statusCode).toBe(303);
+          expect(advertisement.title).toBe("Hiring Bloc Developers");
+          expect(advertisement.description).toBe("Interested applicants please forward resume to careers@bloc.io");
+          done();
+        })
+        .catch((err) => {
+          console.log(err);
+          done();
+        })
+      });
+    });
+  });
 });

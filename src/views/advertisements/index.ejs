@@ -9,11 +9,16 @@
 
     <main class="container">
       <h1>Advertisements</h1>
+      <a href="/advertisements/new">
+        <button>New Advertisement</button>
+      </a>
 
-      <ul>
+      <ul class="list-group">
         <% advertisements.forEach((advertisement) => { %>
-          <li>
-            <%= advertisement.title %>
+          <li class="list-group-item">
+            <a href="/advertisements/<%= advertisement.id %>">
+              <%= advertisement.title %>
+            </a>
           </li>
         <% }) %>
       </ul>

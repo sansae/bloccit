@@ -5,10 +5,13 @@
   </head>
 
   <body>
-    <main class="container">
-      <% include ../static/partials/navbar.ejs %>
+    <% include ../static/partials/navbar.ejs %>
 
+    <main class="container">
       <h1>Topics</h1>
+      <a href="/topics/new">
+        <button>New Topic</button>
+      </a>
 
       <ul class="list-group">
         <% topics.forEach((topic) => { %>
