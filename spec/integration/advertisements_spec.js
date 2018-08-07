@@ -34,4 +34,15 @@ describe("routes : advertisements", () => {
       });
     });
   });
+
+  describe("GET /advertisements/new", () => {
+    it("should render a new advertisement form", (done) => {
+      request.get(`${base}new`, (err, res, body) => {
+        expect(res.statusCode).toBe(200);
+        expect(err).toBeNull();
+        expect(body).toContain("New Advertisement");
+        done();
+      });
+    });
+  });
 });
