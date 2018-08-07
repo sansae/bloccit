@@ -102,4 +102,16 @@ describe("routes : advertisements", () => {
       });
     });
   });
+
+  describe("GET /advertisements/:id/edit", () => {
+    it("should render a view with an edit advertisement form", (done) => {
+      request.get(`${base}${this.advertisement.id}/edit`, (err, res, body) => {
+        expect(res.statusCode).toBe(200);
+        expect(err).toBeNull();
+        expect(body).toContain("Edit Advertisement");
+        expect(body).toContain("Join Bloc");
+        done();
+      });
+    });
+  });
 });
