@@ -25,7 +25,7 @@ module.exports = {
       if (err) {
         res.redirect(500, "/advertisements/new");
       } else {
-        res.redirect(303, `advertisements/${advertisement.id}`);
+        res.redirect(303, `/advertisements/${advertisement.id}`);
       }
     });
   },
@@ -38,5 +38,15 @@ module.exports = {
         res.render("advertisements/show", {advertisement});
       }
     })
-  }
+  },
+
+  destroy(req, res, next) {
+    advertisementQueries.deleteAdvertisement(req.params.id, (err, advertisement) => {
+      if (err) {
+        res.redirect(500, `/advertisements/${advertisement.id}`);
+      } else {
+        res.redirect(303, "/advertisements");
+      };
+    });
+  },
 }

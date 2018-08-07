@@ -3,7 +3,7 @@
   <head>
     <% include ../static/partials/head.ejs %>
   </head>
-  
+
   <body>
     <% include ../static/partials/navbar.ejs %>
 
@@ -17,6 +17,10 @@
       </form>
 
       <p><%= topic.description %></p>
+
+      <a href="/topics">
+        <button>Return To All Topics</button>
+      </a>
     </main>
 
     <% include ../static/partials/baseScripts.ejs %>

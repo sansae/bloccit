@@ -11,4 +11,6 @@ router.post("/advertisements/create", advertisementController.create);
 
 router.get("/advertisements/:id", advertisementController.show);
 
+router.post("/advertisements/:id/destroy", advertisementController.destroy);
+
 module.exports = router;
