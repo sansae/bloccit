@@ -114,4 +114,29 @@ describe("routes : advertisements", () => {
       });
     });
   });
+
+  describe("POST /advertisements/:id/update", () => {
+    it("should update the advertisement with the given values", (done) => {
+      const options = {
+        url: `${base}${this.advertisement.id}/update`,
+        form: {
+          title: "Join Us",
+          description: "We are an awesome club."
+        }
+      };
+
+      request.post(options, (err, res, body) => {
+        expect(err).toBeNull();
+
+        Advertisement.findOne({
+          where: { id: this.advertisement.id }
+        })
+        .then((advertisement) => {
+          expect(advertisement.title).toBe("Join Us");
+          expect(advertisement.description).toBe("We are an awesome club.");
+          done();
+        });
+      });
+    });
+  });
 });

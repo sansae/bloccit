@@ -59,4 +59,14 @@ module.exports = {
       };
     });
   },
+
+  update(req, res, next) {
+    advertisementQueries.updateAdvertisement(req.params.id, req.body, (err, advertisement) => {
+      if (err || advertisement == null) {
+        res.redirect(404, `/advertisements/${advertisement.id}/edit`);
+      } else {
+        res.redirect(`/advertisements/${advertisement.id}`);
+      }
+    });
+  },
 }
