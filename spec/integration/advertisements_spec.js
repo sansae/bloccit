@@ -7,7 +7,7 @@ const Advertisement = require("../../src/db/models").Advertisement;
 describe("routes : advertisements", () => {
   beforeEach((done) => {
     this.advertisement;
-    sequelize.sync({force: true}).then((res) => {
+    sequelize.sync({ force: true }).then((res) => {
       Advertisement.create({
         title: "Join Bloc",
         description: "We teach Full Stack Web Development"
