@@ -17,7 +17,7 @@
         <% advertisements.forEach((advertisement) => { %>
           <li class="list-group-item">
             <a href="/advertisements/<%= advertisement.id %>">
-              <%= advertisement.title %>
+              <%= advertisement.id %>. <%= advertisement.title %>
             </a>
           </li>
         <% }) %>
