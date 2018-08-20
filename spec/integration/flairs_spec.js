@@ -83,4 +83,58 @@ describe("routes : flairs", () => {
       });
     });
   });
+
+  describe("GET /flairs/:id/edit", () => {
+    it("should render a view with an edit flair form", (done) => {
+      request.get(`${base}/${this.flair.id}/edit`, (err, res, body) => {
+        expect(res.statusCode).toBe(200);
+        expect(err).toBeNull();
+        expect(body).toContain("Edit Flair");
+        expect(body).toContain("Flash");
+        done();
+      });
+    });
+  });
+
+  describe("POST /flairs/:id/update", () => {
+    it("should update the flair with the given values and redirect to show form", (done) => {
+      const options = {
+        url: `${base}/${this.flair.id}/update`,
+        form: {
+          name: "Omega Red",
+          color: "red"
+        }
+      };
+
+      request.post(options, (err, res, body) => {
+        expect(err).toBeNull();
+
+        Flair.findOne({
+          where: { id: this.flair.id }
+        })
+        .then((flair) => {
+          expect(flair.name).toBe("Omega Red");
+          done();
+        });
+      });
+    });
+  });
+
+  describe("POST /flairs/:id/destroy", () => {
+    it("should delete the selected flair and redirect to the index page", (done) => {
+      Flair.all()
+      .then((flairs) => {
+        expect(flairs.length).toBe(1);
+
+        request.post(`${base}/${this.flair.id}/destroy`, (err, res, body) => {
+          Flair.all()
+          .then((flairs) => {
+            expect(flairs.length).toBe(0);
+            expect(err).toBeNull();
+            done();
+          })
+        })
+      })
+    })
+  })
 });

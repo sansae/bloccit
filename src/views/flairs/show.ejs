@@ -10,6 +10,14 @@
     <main class="container">
       <h1 style="color:<%= flair.color %>"><%= flair.name %></h1>
 
+      <a href="/flairs/<%= flair.id %>/edit" class="btn btn-warning">Edit</a>
+
+      <form action="/flairs/<%= flair.id %>/destroy" method="post" style="display:initial">
+        <button type="submit" class="btn btn-danger">Delete</button>
+      </form>
+
+      <hr>
+
       <a href="/flairs">
         <button>Return to all Flairs</button>
       </a>

@@ -39,4 +39,39 @@ module.exports = {
       }
     });
   },
+
+  edit(req, res, next) {
+    flairQueries.getFlair(req.params.id, (err, flair) => {
+      if (err || flair == null) {
+        res.redirect(404, "/");
+      } else {
+        res.render("flairs/edit", {flair});
+      }
+    });
+  },
+
+  update(req, res, next) {
+    let updatedFlair = {
+      name: req.body.name,
+      color: req.body.color
+    };
+
+    flairQueries.updateFlair(req.params.id, updatedFlair, (err, flair) => {
+      if (err) {
+        res.redirect(500, `/flairs/${flair.id}/edit`);
+      } else {
+        res.redirect(303, `/flairs/${flair.id}`);
+      }
+    });
+  },
+
+  destroy(req, res, next) {
+    flairQueries.deleteFlair(req.params.id, (err, flair) => {
+      if (err) {
+        res.redirect(500, `/flairs/${flairs.id}`);
+      } else {
+        res.redirect(303, `/flairs`);
+      }
+    });
+  },
 }

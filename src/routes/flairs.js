@@ -11,4 +11,10 @@ router.post("/flairs/create", flairController.create);
 
 router.get("/flairs/:id", flairController.show);
 
+router.get("/flairs/:id/edit", flairController.edit);
+
+router.post("/flairs/:id/update", flairController.update);
+
+router.post("/flairs/:id/destroy", flairController.destroy);
+
 module.exports = router;

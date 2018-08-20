@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include ../static/partials/head.ejs %>
+  </head>
+
+  <body>
+    <% include ../static/partials/navbar.ejs %>
+
+    <main class="container">
+      <h1>Edit Flair</h1>
+
+      <form action="/flairs/<%= flair.id %>/update" method="post">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input name="name" value="<%= flair.name %>" placeholder="Enter name" type="text" aria-describedby="nameHelp" class="form-control">
+        </div>
+
+        <div class="form-group">
+          <label for="color">Color</label>
+          <input name="color" value="<%= flair.color %>" placeholder="Enter color" aria-describedby="colorHelp" type="text" class="form-control">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Update</button>
+      </form>
+
+      <a href="/flairs">
+        <button>Return to all Flairs</button>
+      </a>
+    </main>
+
+    <% include ../static/partials/baseScripts.ejs %>
+  </body>
+</html>
