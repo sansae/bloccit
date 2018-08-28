@@ -9,9 +9,10 @@
 
     <main class="container">
       <h1>Topics</h1>
-      <a href="/topics/new">
-        <button class="new-btn">New Topic</button>
-      </a>
+
+      <% if (currentUser && currentUser.isAdmin()) { %>
+        <a href="/topics/new" class="btn btn-success">New Topic</a>
+      <% } %>
 
       <ul class="list-group">
         <% topics.forEach((topic) => { %>
