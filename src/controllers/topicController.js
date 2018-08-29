@@ -19,10 +19,7 @@ module.exports = {
       res.render("topics/new");
     } else {
       req.flash("notice", "You are not authorized to do that.");
-<<<<<<< HEAD
       res.redirect("/topics");
-=======
->>>>>>> 12418dc29d9b672e39f3900a068b2d9e127a2d3e
     }
   },
 
