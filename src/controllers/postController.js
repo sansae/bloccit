@@ -1,8 +1,17 @@
 const postQueries = require("../db/queries.posts.js");
+const Authorizer = require("../policies/topic");
 
 module.exports = {
   new(req, res, next) {
-    res.render("posts/new", {topicId: req.params.topicId});
+    const authorized = new Authorizer(req.user).new();
+
+    if (authorized) {
+      res.render("posts/new", {topicId: req.params.topicId});
+    } else {
+      // this notice is not necessary if we write a condition that only show the New Post btn if user is authorized/signed in"
+      req.flash("notice", "You are not authorized to do that.");
+      res.redirect(`/topics/${req.params.topicId}`);
+    }
   },
 
   create(req, res, next) {
@@ -47,7 +56,14 @@ module.exports = {
       if (err || post == null) {
         res.redirect(404, "/");
       } else {
-        res.render("posts/edit", {post})
+        const authorized = new Authorizer(req.user, post).edit();
+
+        if (authorized) {
+          res.render("posts/edit", {post})
+        } else {
+          req.flash("You are not authorized to do that.");
+          res.redirect(`/topics/${req.params.id}`);
+        }
       };
     });
   },
