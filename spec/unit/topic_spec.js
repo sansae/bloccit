@@ -24,8 +24,8 @@ describe("Topic", () => {
           description: "A compilation of reports from recent visits to the star system.",
 
           posts: [{
-            title: "",
-            body: "",
+            title: "My first visit to Proxima Centauri b",
+            body: "I saw some rocks.",
             userId: this.user.id
           }]
         }, {
@@ -36,7 +36,7 @@ describe("Topic", () => {
         })
         .then((topic) => {
           this.topic = topic;
-          this.post = topic.posts[0];
+          this.post = this.topic.posts[0];
           done();
         })
       })
@@ -73,7 +73,8 @@ describe("Topic", () => {
       Post.create({
         title: "Anyone Like Mysteries?",
         body: "Mystery films are by far my favorite.",
-        topicId: this.topic.id
+        topicId: this.topic.id,
+        userId: this.user.id
       })
       .then((post) => {
         expect(post.title).toBe("Anyone Like Mysteries?");
@@ -81,16 +82,18 @@ describe("Topic", () => {
         Post.create({
           title: "I love Action",
           body: "My favorite are action films.",
-          topicId: this.topic.id
+          topicId: this.topic.id,
+          userId: this.user.id
         })
         .then((post) => {
           expect(post.title).toBe("I love Action");
 
           this.topic.getPosts()
           .then((posts) => {
-            expect(posts.length).toBe(2);
-            expect(posts[0].body).toBe("Mystery films are by far my favorite.");
-            expect(posts[1].body).toBe("My favorite are action films.");
+            expect(posts.length).toBe(3);
+            expect(posts[0].body).toBe("I saw some rocks.");
+            expect(posts[1].body).toBe("Mystery films are by far my favorite.");
+            expect(posts[2].body).toBe("My favorite are action films.");
             done();
           });
         });
