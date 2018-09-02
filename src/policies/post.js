@@ -1,12 +1,28 @@
 const ApplicationPolicy = require("./application");
 
 module.exports = class PostPolicy extends ApplicationPolicy {
+  _isAdmin() {
+    return this.user && this.user.role == "admin";
+  }
+
+  _isOwner() {
+    return this.user && this.user.role == "owner";
+  }
+
+  _isMember() {
+    return this.user && this.user.role == "member";
+  }
+
+  new() {
+    return this._isMember() || this._isAdmin();
+  }
+
   create() {
-    return this.new();
+    return this._isMember() || this._isAdmin();
   }
 
   edit() {
-    return this.new() && this._isAdmin();
+    return this._isAdmin() || this._isOwner();
   }
 
   update() {
@@ -14,6 +30,6 @@ module.exports = class PostPolicy extends ApplicationPolicy {
   }
 
   destroy() {
-    return this._isAdmin();
+    return this._isAdmin() || this._isOwner();
   }
 }
