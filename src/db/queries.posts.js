@@ -6,7 +6,8 @@ module.exports = {
     return Post.create({
       title: newPost.title,
       body: newPost.body,
-      topicId: newPost.topicId
+      topicId: newPost.topicId,
+      userId: newPost.userId
     })
     .then((post) => {
       callback(null, post);
