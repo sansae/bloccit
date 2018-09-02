@@ -1,7 +1,6 @@
 const request = require("request");
 const server = require("../../src/server");
 const base = "http://localhost:3000/topics";
-
 const sequelize = require("../../src/db/models/index").sequelize;
 const Topic = require("../../src/db/models").Topic;
 const Post = require("../../src/db/models").Post;
@@ -185,7 +184,36 @@ describe("routes : posts", () => {
     });
   });// end guest user context
 
-  
+  // define the member user context
+  describe("member user performing CRUD actions for Post", () => {
+    // mock authenticate as a member user
+    beforeEach((done) => {
+      request.get({
+        url: "http://localhost:3000/auth/fake",
+        form: {
+          role: "member",
+          userId: 1
+        }
+      }, (err, res, body) => {
+        done();
+      });
+    })
+
+    describe("GET /topics/:topicId/posts/new", () => {
+      it("should render a new post form", (done) => {
+        request.get(`${base}/${this.topic.id}/posts/new`, (err, res, body) => {
+          console.log(body);
+          // expect(err).toBeNull();
+          // expect(body).toContain("New Post");
+          done();
+        });
+      });
+    });
+  })
+
+
+
+
 /*------------------------------------------------*/
 /* original test suites are below (pre-authorization checkpoint exercise). rewrite them above according to the context it is in (i.e. guest, member, owner, and admin) */
 /*------------------------------------------------*/

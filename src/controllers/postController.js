@@ -6,9 +6,9 @@ module.exports = {
     const authorized = new Authorizer(req.user).new();
 
     if (authorized) {
-      res.render("posts/new", {topicId: req.params.topicId});
+      res.send("hello world");
+      // res.render("posts/new", {topicId: req.params.topicId});
     } else {
-      // this notice is not necessary if we write a condition that only show the New Post btn if user is authorized/signed in"
       req.flash("notice", "You are not authorized to do that.");
       res.redirect(`/topics/${req.params.topicId}`);
     }
