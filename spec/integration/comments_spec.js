@@ -231,6 +231,46 @@ describe("routes : comments", () => {
           });
         });
       });
+
+      it("should allow admin users to delete a member user's comment", (done) => {
+        User.create({
+          email: "administrator@gmail.com",
+          password: "theman"
+        })
+        .then((user) => {
+          expect(user.email).toBe("administrator@gmail.com");
+          expect(user.id).toBe(2);
+
+          request.get({
+            url: "http://localhost:3000/auth/fake",
+            form: {
+              role: "admin",
+              userId: user.id
+            }
+          }, (err, res, body) => {
+            done();
+          });
+
+          Comment.all()
+          .then((comments) => {
+            const commentCountBeforeDelete = comments.length;
+
+            expect(comments[0].body).toBe("ay caramba!!!!!");
+            expect(commentCountBeforeDelete).toBe(1);
+
+            request.post(
+             `${base}${this.topic.id}/posts/${this.post.id}/comments/${this.comment.id}/destroy`,
+              (err, res, body) => {
+              Comment.all()
+              .then((comments) => {
+                expect(err).toBeNull();
+                expect(comments.length).toBe(commentCountBeforeDelete - 1);
+                done();
+              });
+            });
+          });
+        });
+      });
     });
   });// end context for signed in user
 });
