@@ -2,6 +2,7 @@ const Post = require("./models").Post;
 const Topic = require("./models").Topic;
 const Comment = require("./models").Comment;
 const User = require("./models").User;
+const Vote = require("./models").Vote;
 
 module.exports = {
   addPost(newPost, callback) {
@@ -19,15 +20,16 @@ module.exports = {
     });
   },
 
+  // when we retrieve the post, eager load comments, user, and votes
   getPost(id, callback) {
     return Post.findById(id, {
       include: [{
         model: Comment,
         as: "comments",
-        include: [{
-          model: User
-        }]
-      }]
+        include: [
+          {model: User}
+        ]}, {model: Vote, as: "votes"}
+      ]
     })
     .then((post) => {
       callback(null, post);
