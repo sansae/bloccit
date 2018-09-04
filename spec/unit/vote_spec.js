@@ -115,6 +115,21 @@ describe("Vote", () => {
         done();
       })
     });
+
+    it("should not create a vote with a value of anything other than 1 or -1", (done) => {
+      Vote.create({
+        value: 2,
+        postId: this.post.id,
+        userId: this.user.id
+      })
+      .then((vote) => {
+        done();
+      })
+      .catch((err) => {
+        expect(err.message).toContain("Validation isIn on value failed");
+        done();
+      });
+    });
   });// end #create()
 
   describe("#setUser()", () => {
@@ -229,6 +244,79 @@ describe("Vote", () => {
         console.log(err);
         done();
       });
+    });
+  });
+
+/* my code start below */
+
+  // describe("#getPoints()", () => {
+  //   it("should return all the points for the associated post", (done) => {
+  //     // create a post, mock authenticate a member user, vote on it, then call getPoints() on the post
+  //     // expect(getPoints).toBe(sume of votes.values)
+  //     // console.log('hello beautiful world');
+  //     Vote.create({
+  //       value: -1,
+  //       postId: this.post.id,
+  //       userId: this.user.id
+  //     })
+  //     .then((vote) => {
+  //       this.vote = vote;
+  //
+  //       Post.create({
+  //         title: "Dress code on Proxima b",
+  //         body: "Spacesuit, space helmet, space boots, and space gloves",
+  //         topicId: this.topic.id,
+  //         userId: this.user.id
+  //       })
+  //       .then((newPost) => {
+  //         // check vote not associated with newPost
+  //         expect(this.vote.postId).toBe(this.post.id);
+  //
+  //         // update post reference for vote
+  //         this.vote.setPost(newPost)
+  //         .then((vote) => {
+  //
+  //           // ensure it was updated
+  //           expect(vote.postId).toBe(newPost.id);
+  //           // console.log("hello world");
+  //           console.log(newPost.getPoints());
+  //           done();
+  //         });
+  //       })
+  //     })
+  //   })
+  // })
+
+  describe("the Post model", () => {
+    beforeEach((done) => {
+      Post.create({
+        title: "testing getPoints",
+        body: "testing testing testing",
+        topicId: this.topic.id,
+        userId: this.user.id
+      })
+      .then((post) => {
+        this.post = post;
+
+        Vote.create({
+          value: 1,
+          postId: post.id,
+          userId: post.userId
+        })
+        .then((vote) => {
+          spyOn(Post.prototype, 'getPoints');
+          Post.prototype.getPoints(vote);
+          // console.log(Post.prototype.getPoints(1));
+          // console.log(Post.prototype.getPoints(vote));
+          done();
+        })
+      })
+    })
+
+    it("should call its prototype's getPoints method", (done) => {
+      // console.log(Post.prototype.getPoints);
+      expect(Post.prototype.getPoints).toHaveBeenCalled();
+      done();
     });
   });
 });

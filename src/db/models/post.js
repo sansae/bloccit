@@ -49,6 +49,6 @@ module.exports = (sequelize, DataTypes) => {
       .map((v) => { return v.value })
       .reduce((prev, next) => { return prev + next });
   };
-  
+
   return Post;
 };
