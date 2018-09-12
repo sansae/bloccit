@@ -41,8 +41,10 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
-  Post.prototype.getPoints = function(){
-    if (this.votes.length === 0) return 0;
+  Post.prototype.getPoints = function() {
+    console.log(JSON.stringify(this));
+
+    if (!this.votes || this.votes.length === 0) return 0;
 
     // The map function transforms the array.  this.votes is an array of Vote objects. map turns it into an array of  values. The reduce function goes over all values, reducing them until one is left, the total.
     return this.votes
@@ -50,5 +52,20 @@ module.exports = (sequelize, DataTypes) => {
       .reduce((prev, next) => { return prev + next });
   };
 
+  Post.prototype.hasUpvoteFor = function() {
+    console.log(JSON.stringify(this));
+
+    // console.log(this.votes);
+
+    // Vote.findOne({
+    //   where: {
+    //     userId: this.userId,
+    //     postId: this.id
+    //   }
+    // })
+    // .then((vote) => {
+    //   console.log("hello beautiful world");
+    // })
+  }
   return Post;
 };

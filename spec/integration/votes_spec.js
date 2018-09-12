@@ -196,6 +196,6 @@ describe("routes : votes", () => {
           });
         })
       });
-    });
+    });// end downVote()
   });// end signed in user context
 });

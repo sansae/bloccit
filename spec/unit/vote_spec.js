@@ -247,76 +247,73 @@ describe("Vote", () => {
     });
   });
 
-/* my code start below */
-
-  // describe("#getPoints()", () => {
-  //   it("should return all the points for the associated post", (done) => {
-  //     // create a post, mock authenticate a member user, vote on it, then call getPoints() on the post
-  //     // expect(getPoints).toBe(sume of votes.values)
-  //     // console.log('hello beautiful world');
-  //     Vote.create({
-  //       value: -1,
-  //       postId: this.post.id,
-  //       userId: this.user.id
-  //     })
-  //     .then((vote) => {
-  //       this.vote = vote;
-  //
-  //       Post.create({
-  //         title: "Dress code on Proxima b",
-  //         body: "Spacesuit, space helmet, space boots, and space gloves",
-  //         topicId: this.topic.id,
-  //         userId: this.user.id
-  //       })
-  //       .then((newPost) => {
-  //         // check vote not associated with newPost
-  //         expect(this.vote.postId).toBe(this.post.id);
-  //
-  //         // update post reference for vote
-  //         this.vote.setPost(newPost)
-  //         .then((vote) => {
-  //
-  //           // ensure it was updated
-  //           expect(vote.postId).toBe(newPost.id);
-  //           // console.log("hello world");
-  //           console.log(newPost.getPoints());
-  //           done();
-  //         });
-  //       })
-  //     })
-  //   })
-  // })
-
-  describe("the Post model", () => {
-    beforeEach((done) => {
-      Post.create({
-        title: "testing getPoints",
-        body: "testing testing testing",
-        topicId: this.topic.id,
+  describe("#getPoints()", () => {
+    it("should return all the points for the associated post", (done) => {
+      Vote.create({
+        value: 1,
+        postId: this.post.id,
         userId: this.user.id
       })
-      .then((post) => {
-        this.post = post;
+      .then((vote) => {
+        this.vote = vote;
 
-        Vote.create({
-          value: 1,
-          postId: post.id,
-          userId: post.userId
+        Post.create({
+          title: "Dress code on Proxima b",
+          body: "Spacesuit, space helmet, space boots, and space gloves",
+          topicId: this.topic.id,
+          userId: this.user.id
         })
-        .then((vote) => {
-          spyOn(Post.prototype, 'getPoints');
-          Post.prototype.getPoints(vote);
-          // console.log(Post.prototype.getPoints(1));
-          // console.log(Post.prototype.getPoints(vote));
-          done();
-        })
-      })
-    })
+        .then((newPost) => {
+          // check vote not associated with newPost
+          expect(this.vote.postId).toBe(this.post.id);
 
-    it("should call its prototype's getPoints method", (done) => {
-      // console.log(Post.prototype.getPoints);
-      expect(Post.prototype.getPoints).toHaveBeenCalled();
-      done();
+          // update post reference for vote
+          this.vote.setPost(newPost)
+          .then((vote) => {
+            // ensure it was updated
+            expect(vote.postId).toBe(newPost.id);
+            expect(newPost.getPoints()).toBe(0);
+            done();
+          });
+        });
+      });
     });
-  });
+  });// end getPoints()
+
+  describe("#hasUpvoteFor()", () => {
+    it("should return true if the user with the matching userId has an upvote for a post", (done) => {
+      // create an upvote for a post
+      Vote.create({
+        value: 1,
+        postId: this.post.id,
+        userId: this.user.id
+      })
+      .then((vote) => {
+        this.vote = vote;
+
+        Post.create({
+          title: "Testing hasUpvoteFor",
+          body: "These tests are hard",
+          topicId: this.topic.id,
+          userId: this.user.id
+        })
+        .then((newPost) => {
+          // check vote not associated with newPost
+          expect(this.vote.postId).not.toBe(newPost.id);
+
+          // update post reference for vote
+          this.vote.setPost(newPost)
+          .then((vote) => {
+            // ensure it was updated
+            expect(vote.postId).toBe(newPost.id);
+            expect(this.vote.userId).toBe(newPost.userId);
+            // call hasUpvoteFor on Post object with userId of new post and set expectation to be true
+            // expect(newPost.hasUpvoteFor(newPost.userId)).toBe(true);
+            console.log(newPost.hasUpvoteFor(newPost.userId))
+            done();
+          });
+        });
+      });
+    });
+  });//end hasUpvoteFor()
 });
