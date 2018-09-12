@@ -307,13 +307,56 @@ describe("Vote", () => {
             // ensure it was updated
             expect(vote.postId).toBe(newPost.id);
             expect(this.vote.userId).toBe(newPost.userId);
-            // call hasUpvoteFor on Post object with userId of new post and set expectation to be true
-            // expect(newPost.hasUpvoteFor(newPost.userId)).toBe(true);
-            console.log(newPost.hasUpvoteFor(newPost.userId))
-            done();
+            // call hasUpvoteFor on Post object with userId of new post
+            newPost.hasUpvoteFor(newPost.userId)
+            .then((votes) => {
+              // if votes.length > 0, that means there is a vote object with value of 1
+              expect(votes.length > 0).toBe(true);
+              done();
+            })
           });
         });
       });
     });
   });//end hasUpvoteFor()
+
+  describe("#hasDownvoteFor()", () => {
+    it("should return true if the user with the matching userId has an downvote for a post", (done) => {
+      // create a downvote for a post
+      Vote.create({
+        value: -1,
+        postId: this.post.id,
+        userId: this.user.id
+      })
+      .then((vote) => {
+        this.vote = vote;
+
+        Post.create({
+          title: "Testing hasDownvoteFor",
+          body: "These tests are getting easier?",
+          topicId: this.topic.id,
+          userId: this.user.id
+        })
+        .then((newPost) => {
+          // check vote not associated with newPost
+          expect(this.vote.postId).not.toBe(newPost.id);
+
+          // update post reference for vote
+          this.vote.setPost(newPost)
+          .then((vote) => {
+            // ensure it was updated
+            expect(vote.postId).toBe(newPost.id);
+            expect(this.vote.userId).toBe(newPost.userId);
+            // call hasDownvoteFor on Post object with userId of new post
+            newPost.hasDownvoteFor(newPost.userId)
+            .then((votes) => {
+              // if votes.length > 0, that means there is a vote object with value of -1
+              expect(votes.length > 0).toBe(true);
+              done();
+            })
+          });
+        });
+      });
+    });
+  });//end hasDownvoteFor()
 });

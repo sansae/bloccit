@@ -18,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     }
   }, {});
+
   Post.associate = function(models) {
     // associations can be defined here
     Post.belongsTo(models.Topic, {
@@ -37,13 +38,11 @@ module.exports = (sequelize, DataTypes) => {
 
     Post.hasMany(models.Vote, {
       foreignKey: "postId",
-      as: "votes"
+      as: "votes",
     });
   };
 
   Post.prototype.getPoints = function() {
-    console.log(JSON.stringify(this));
-
     if (!this.votes || this.votes.length === 0) return 0;
 
     // The map function transforms the array.  this.votes is an array of Vote objects. map turns it into an array of  values. The reduce function goes over all values, reducing them until one is left, the total.
@@ -52,20 +51,27 @@ module.exports = (sequelize, DataTypes) => {
       .reduce((prev, next) => { return prev + next });
   };
 
-  Post.prototype.hasUpvoteFor = function() {
-    console.log(JSON.stringify(this));
+  Post.prototype.hasUpvoteFor = function(userId) {
+    var numberOfVotes = 0;
 
-    // console.log(this.votes);
+    return this.getVotes({
+      where: {
+        userId: userId,
+        value: 1
+      }
+    })
+  };
 
-    // Vote.findOne({
-    //   where: {
-    //     userId: this.userId,
-    //     postId: this.id
-    //   }
-    // })
-    // .then((vote) => {
-    //   console.log("hello beautiful world");
-    // })
-  }
+  Post.prototype.hasDownvoteFor = function(userId) {
+    var numberOfVotes = 0;
+
+    return this.getVotes({
+      where: {
+        userId: userId,
+        value: -1
+      }
+    })
+  };
+
   return Post;
 };
