@@ -26,6 +26,21 @@
           <% }) %>
         <% } %>
       </ul>
+
+      <hr>
+
+      <!--favorited posts go here-->
+      <h2> Favorited Posts </h2>
+
+      <ul class="list-unstyled">
+
+        <% if (favorites) { %>
+          <p style="color:red">Kent! my favorited posts go here</p>
+
+          <p><%= favorites %></p>
+        <% } %>
+      </ul>
+
       <hr>
 
       <h2> Latest Comments</h2>
