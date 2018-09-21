@@ -15,4 +15,6 @@ router.post("/users/sign_in", userController.signIn);
 
 router.get("/users/sign_out", userController.signOut);
 
+router.get("/users/:id", userController.show);
+
 module.exports = router;
