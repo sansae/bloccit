@@ -13,7 +13,7 @@
 
       <hr>
 
-      <h2> Latest Posts</h2>
+      <h2>Latest Posts</h2>
 
       <ul class="list-unstyled">
         <% if (posts) { %>
@@ -29,21 +29,23 @@
 
       <hr>
 
-      <!--favorited posts go here-->
-      <h2> Favorited Posts </h2>
+      <h2>Favorited Posts</h2>
 
       <ul class="list-unstyled">
-
-        <% if (favorites) { %>
-          <p style="color:red">Kent! my favorited posts go here</p>
-
-          <p><%= favorites %></p>
+        <% if (allFavorites) { %>
+          <% allFavorites.forEach((post) => { %>
+            <li>
+              <a href="/topics/<%= post.topicId %>/posts/<%= post.id %>">
+                <%= post.title %>
+              </a>
+            </li>
+          <% }) %>
         <% } %>
       </ul>
 
       <hr>
 
-      <h2> Latest Comments</h2>
+      <h2>Latest Comments</h2>
 
       <ul class="list-unstyled">
         <% if (comments) { %>

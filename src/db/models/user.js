@@ -41,24 +41,14 @@ module.exports = (sequelize, DataTypes) => {
     });
 
     User.addScope("allFavoritedPosts", (userId) => {
-      // return "favorites";
+      // return user, and eager load all their favorites
       return {
         include: [{
           model: models.Favorite,
           as: "favorites"
         }],
-        where: { id: userId },
+        where: { id: userId }
       }
-
-      // return {
-      //   include: [{
-      //     model: models.Post,
-      //     include: [{
-      //       model: models.Favorite
-      //     }]
-      //   }],
-      //   where: { userId: userId },
-      // }
     });
   };
 
