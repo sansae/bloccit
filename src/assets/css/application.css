@@ -2,10 +2,20 @@ body {
   padding-top: 70px;
 }
 
+.container > .jumbotron {
+  text-align: center;
+}
+
 .new-btn {
   margin-bottom: 20px;
 }
 
 #profile-link > a {
   color: white;
+}
+
+@media only screen and (max-width: 500px) {
+  #welcome-title {
+    font-size: 55px;
+  }
 }
